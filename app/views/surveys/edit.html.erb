@@ -27,14 +27,8 @@
         <input type="text" id="survey_name" name="survey_name" placeholder="Survey name" class="form-control" value="<%= @survey.survey_name %>">
       </div>
 
-      <!-- Label and input for user_id -->
-      <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
-
-        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email, @survey.user_id), :class => "form-control") %>
-      </div>
+      
+      
 
       <!-- Label and input for question_text -->
       <div class="form-group">

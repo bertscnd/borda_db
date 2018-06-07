@@ -18,7 +18,7 @@
 
       <% @survey_responses.each do |survey_response| %>
       <tr>
-        <td><%= survey_response.survey_id %></td>
+        <td><%= survey_response.survey.survey_name %></td>
         <td><%= survey_response.response_id %></td>
         <td><%= survey_response.response_rank %></td>
         <td><%= survey_response.submitter_name %></td>

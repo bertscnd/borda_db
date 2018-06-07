@@ -33,7 +33,7 @@
           Response
         </label>
 
-        <input type="text" id="response_id" name="response_id" placeholder="Response" class="form-control" value="<%= @survey_response.response_id %>">
+        <%= select_tag(:response_id, options_from_collection_for_select(SurveyResponseOption.all, :id, :response_text, @survey_response.response_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for response_rank -->

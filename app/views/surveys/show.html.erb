@@ -9,7 +9,13 @@
       <dd><%= @survey.survey_name %></dd>
 
       <dt>User</dt>
-      <dd><%= @survey.user_id %></dd>
+      <dd>
+        <% if @survey.user.present? %>
+          <a href="/users/<%= @survey.user_id %>">
+            <%= @survey.user.email %>
+          </a>
+        <% end %>
+      </dd>
 
       <dt>Question text</dt>
       <dd><%= @survey.question_text %></dd>

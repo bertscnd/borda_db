@@ -18,8 +18,20 @@
 
       <% @survey_responses.each do |survey_response| %>
       <tr>
-        <td><%= survey_response.survey.survey_name %></td>
-        <td><%= survey_response.response_option.response_text %></td>
+        <td>
+          <% if survey_response.survey.present? %>
+            <a href="/surveys/<%= survey_response.survey.id %>">
+              <%= survey_response.survey.survey_name %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if survey_response.response_option.present? %>
+            <a href="/survey_response_options/<%= survey_response.response_option.id %>">
+              <%= survey_response.response_option.response_text %>
+            </a>
+          <% end %>
+        </td>
         <td><%= survey_response.response_rank %></td>
         <td><%= survey_response.submitter_name %></td>
         <td>

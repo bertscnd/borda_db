@@ -18,7 +18,13 @@
       <% @surveys.each do |survey| %>
       <tr>
         <td><%= survey.survey_name %></td>
-        <td><%= survey.user.email %></td>
+        <td>
+          <% if survey.user.present? %>
+            <a href="/users/<%= survey.user.id %>">
+              <%= survey.user.email %>
+            </a>
+          <% end %>
+        </td>
         <td><%= survey.question_text %></td>
         <td>
           <a href="/surveys/<%= survey.id %>" class="btn btn-primary">Show</a>

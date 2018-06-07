@@ -9,7 +9,13 @@
       <dd><%= @survey_response_option.response_text %></dd>
 
       <dt>Survey</dt>
-      <dd><%= @survey_response_option.survey_id %></dd>
+      <dd>
+        <% if @survey_response_option.survey.present? %>
+          <a href="/surveys/<%= @survey_response_option.survey_id %>">
+            <%= @survey_response_option.survey.survey_name %>
+          </a>
+        <% end %>
+      </dd>
 
     </dl>
 

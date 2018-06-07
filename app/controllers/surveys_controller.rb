@@ -10,7 +10,8 @@ class SurveysController < ApplicationController
   end
 
   def index
-    @surveys = current_user.surveys.page(params[:page]).per(10)
+    @q = current_user.surveys.ransack(params[:q])
+    @surveys = @q.result(:distinct => true).includes(:user, :survey_questions, :survey_responses).page(params[:page]).per(10)
 
     render("surveys/index.html.erb")
   end

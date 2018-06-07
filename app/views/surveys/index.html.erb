@@ -18,7 +18,7 @@
       <% @surveys.each do |survey| %>
       <tr>
         <td><%= survey.survey_name %></td>
-        <td><%= survey.user_id %></td>
+        <td><%= survey.user.email %></td>
         <td><%= survey.question_text %></td>
         <td>
           <a href="/surveys/<%= survey.id %>" class="btn btn-primary">Show</a>

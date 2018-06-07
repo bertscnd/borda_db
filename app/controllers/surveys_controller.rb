@@ -10,7 +10,7 @@ class SurveysController < ApplicationController
   end
 
   def index
-    @surveys = Survey.all
+    @surveys = current_user.surveys.page(params[:page]).per(10)
 
     render("surveys/index.html.erb")
   end

@@ -24,7 +24,7 @@
           Survey
         </label>
 
-        <input type="text" id="survey_id" name="survey_id" placeholder="Survey" class="form-control" value="<%= @survey_response.survey_id %>">
+        <%= select_tag(:survey_id, options_from_collection_for_select(Survey.all, :id, :survey_name, @survey_response.survey_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for response_id -->

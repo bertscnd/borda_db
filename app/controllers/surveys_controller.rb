@@ -1,4 +1,14 @@
 class SurveysController < ApplicationController
+  before_action :current_user_must_be_survey_user, :only => [:edit, :update, :destroy]
+
+  def current_user_must_be_survey_user
+    survey = Survey.find(params[:id])
+
+    unless current_user == survey.user
+      redirect_to :back, :alert => "You are not authorized for that."
+    end
+  end
+
   def index
     @surveys = Survey.all
 

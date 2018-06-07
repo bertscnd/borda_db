@@ -20,12 +20,14 @@
       <a href="/surveys" class="btn btn-primary">
         Back
       </a>
-      <a href="/surveys/<%= @survey.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_survey/<%= @survey.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
+      <% if current_user == @survey.user %>
+        <a href="/surveys/<%= @survey.id %>/edit" class="btn btn-warning">
+          Edit
+        </a>
+        <a href="/delete_survey/<%= @survey.id %>" class="btn btn-danger" rel="nofollow">
+          Delete
+        </a>
+      <% end %>
     </div>
   </div>
 </div>

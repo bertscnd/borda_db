@@ -6,6 +6,7 @@ class SurveyResponseOptionsController < ApplicationController
   end
 
   def show
+    @survey_response = SurveyResponse.new
     @survey_response_option = SurveyResponseOption.find(params[:id])
 
     render("survey_response_options/show.html.erb")

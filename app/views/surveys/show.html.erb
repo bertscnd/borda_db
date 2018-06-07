@@ -59,6 +59,29 @@
           </div>
         </li>
       <% end %>
+
+      <li class="list-group-item">
+        <form action="/create_survey_response_option" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for response_text -->
+      <div class="form-group">
+        <label for="response_text" class="control-label">
+          Response text
+        </label>
+
+        <input type="text" id="response_text" name="response_text" placeholder="Response text" class="form-control" value="">
+      </div>
+
+      <!-- Label and input for survey_id -->
+      <input type="hidden" name="survey_id" value="<%= @survey.id %>">
+
+      <button class="btn btn-block btn-success">
+        Create Survey Response Option
+      </button>
+    </form>
+      </li>
     </ul>
   </div>
 </div>
@@ -90,6 +113,47 @@
           </div>
         </li>
       <% end %>
+
+      <li class="list-group-item">
+        <form action="/create_survey_response" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for survey_id -->
+      <input type="hidden" name="survey_id" value="<%= @survey.id %>">
+
+      <!-- Label and input for response_id -->
+      <div class="form-group">
+        <label for="response_id" class="control-label">
+          Response
+        </label>
+
+        <%= select_tag(:response_id, options_from_collection_for_select(SurveyResponseOption.all, :id, :response_text), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for response_rank -->
+      <div class="form-group">
+        <label for="response_rank" class="control-label">
+          Response rank
+        </label>
+
+        <input type="text" id="response_rank" name="response_rank" placeholder="Response rank" class="form-control" value="">
+      </div>
+
+      <!-- Label and input for submitter_name -->
+      <div class="form-group">
+        <label for="submitter_name" class="control-label">
+          Submitter name
+        </label>
+
+        <input type="text" id="submitter_name" name="submitter_name" placeholder="Submitter name" class="form-control" value="">
+      </div>
+
+      <button class="btn btn-block btn-success">
+        Create Survey Response
+      </button>
+    </form>
+      </li>
     </ul>
   </div>
 </div>

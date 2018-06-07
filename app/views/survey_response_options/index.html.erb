@@ -1,0 +1,30 @@
+<div class="page-header">
+  <h1>
+    Survey response options
+    <a href="/survey_response_options/new" class="btn btn-lg btn-success">New Survey response option</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Response text</th>
+        <th>Survey</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @survey_response_options.each do |survey_response_option| %>
+      <tr>
+        <td><%= survey_response_option.response_text %></td>
+        <td><%= survey_response_option.survey_id %></td>
+        <td>
+          <a href="/survey_response_options/<%= survey_response_option.id %>" class="btn btn-primary">Show</a>
+          <a href="/survey_response_options/<%= survey_response_option.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_survey_response_option/<%= survey_response_option.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

@@ -1,4 +1,21 @@
 Rails.application.routes.draw do
+  # Routes for the Survey_response_option resource:
+  # CREATE
+  get "/survey_response_options/new", :controller => "survey_response_options", :action => "new"
+  post "/create_survey_response_option", :controller => "survey_response_options", :action => "create"
+
+  # READ
+  get "/survey_response_options", :controller => "survey_response_options", :action => "index"
+  get "/survey_response_options/:id", :controller => "survey_response_options", :action => "show"
+
+  # UPDATE
+  get "/survey_response_options/:id/edit", :controller => "survey_response_options", :action => "edit"
+  post "/update_survey_response_option/:id", :controller => "survey_response_options", :action => "update"
+
+  # DELETE
+  get "/delete_survey_response_option/:id", :controller => "survey_response_options", :action => "destroy"
+  #------------------------------
+
   # Routes for the Survey resource:
   # CREATE
   get "/surveys/new", :controller => "surveys", :action => "new"

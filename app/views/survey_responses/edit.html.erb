@@ -1,0 +1,64 @@
+<!-- Validation failure messages -->
+<% if @survey_response.errors.any? %>
+  <% @survey_response.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Edit Survey Response #<%= @survey_response.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/update_survey_response/<%= @survey_response.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for survey_id -->
+      <div class="form-group">
+        <label for="survey_id" class="control-label">
+          Survey
+        </label>
+
+        <input type="text" id="survey_id" name="survey_id" placeholder="Survey" class="form-control" value="<%= @survey_response.survey_id %>">
+      </div>
+
+      <!-- Label and input for response_id -->
+      <div class="form-group">
+        <label for="response_id" class="control-label">
+          Response
+        </label>
+
+        <input type="text" id="response_id" name="response_id" placeholder="Response" class="form-control" value="<%= @survey_response.response_id %>">
+      </div>
+
+      <!-- Label and input for response_rank -->
+      <div class="form-group">
+        <label for="response_rank" class="control-label">
+          Response rank
+        </label>
+
+        <input type="text" id="response_rank" name="response_rank" placeholder="Response rank" class="form-control" value="<%= @survey_response.response_rank %>">
+      </div>
+
+      <!-- Label and input for submitter_name -->
+      <div class="form-group">
+        <label for="submitter_name" class="control-label">
+          Submitter name
+        </label>
+
+        <input type="text" id="submitter_name" name="submitter_name" placeholder="Submitter name" class="form-control" value="<%= @survey_response.submitter_name %>">
+      </div>
+
+      <button class="btn btn-warning">
+        Update Survey Response
+      </button>
+      or
+      <a href="/survey_responses/<%= @survey_response.id %>">Cancel</a>
+    </form>
+  </div>
+</div>

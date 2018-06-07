@@ -1,4 +1,6 @@
 ActiveAdmin.register Survey do
+
+ permit_params :survey_name, :user_id, :question_text
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #

@@ -17,7 +17,7 @@
       <% @survey_response_options.each do |survey_response_option| %>
       <tr>
         <td><%= survey_response_option.response_text %></td>
-        <td><%= survey_response_option.survey_id %></td>
+        <td><%= survey_response_option.survey.survey_name %></td>
         <td>
           <a href="/survey_response_options/<%= survey_response_option.id %>" class="btn btn-primary">Show</a>
           <a href="/survey_response_options/<%= survey_response_option.id %>/edit" class="btn btn-warning">Edit</a>

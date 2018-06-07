@@ -1,6 +1,9 @@
 class Survey < ApplicationRecord
   # Direct associations
 
+  has_many   :survey_responses,
+             :dependent => :destroy
+
   has_many   :survey_questions,
              :class_name => "SurveyResponseOption",
              :dependent => :destroy

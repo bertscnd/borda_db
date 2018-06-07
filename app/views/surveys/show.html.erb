@@ -29,3 +29,65 @@
     </div>
   </div>
 </div>
+
+<!-- A Survey has many survey_questions -->
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-info">
+        Survey Questions
+      </li>
+
+      <% @survey.survey_questions.each do |survey_response_option| %>
+        <li class="list-group-item">
+          <a href="/survey_response_options/<%= survey_response_option.id %>">
+            <%= survey_response_option.response_text %>
+          </a>
+          <div class="btn-group btn-group-xs pull-right">
+            <a href="/survey_response_options/<%= survey_response_option.id %>" class="btn btn-primary">
+              <i class="fa fa-search-plus"></i>
+            </a>
+            <a href="/survey_response_options/<%= survey_response_option.id %>/edit" class="btn btn-warning">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a href="/delete_survey_response_option/<%= survey_response_option.id %>" class="btn btn-danger" rel="nofollow">
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<!-- A Survey has many survey_responses -->
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-info">
+        Survey Responses
+      </li>
+
+      <% @survey.survey_responses.each do |survey_response| %>
+        <li class="list-group-item">
+          <a href="/survey_responses/<%= survey_response.id %>">
+            <%= survey_response.survey_id %>
+          </a>
+          <div class="btn-group btn-group-xs pull-right">
+            <a href="/survey_responses/<%= survey_response.id %>" class="btn btn-primary">
+              <i class="fa fa-search-plus"></i>
+            </a>
+            <a href="/survey_responses/<%= survey_response.id %>/edit" class="btn btn-warning">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a href="/delete_survey_response/<%= survey_response.id %>" class="btn btn-danger" rel="nofollow">
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

@@ -4,7 +4,7 @@ class CreateSurveyResponses < ActiveRecord::Migration
       t.integer :survey_id
       t.integer :response_id
       t.integer :response_rank
-      t.integer :submitter_name
+      t.string :submitter_name
 
       t.timestamps
 

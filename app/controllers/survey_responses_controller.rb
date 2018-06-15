@@ -1,9 +1,23 @@
 class SurveyResponsesController < ApplicationController
+  
+  before_action :authenticate_user!
+  
   def index
     @q = SurveyResponse.ransack(params[:q])
     @survey_responses = @q.result(:distinct => true).includes(:survey, :response_option).page(params[:page]).per(10)
 
     render("survey_responses/index.html.erb")
+  end
+  
+  def surveyindex
+    @survey = Survey.find(params[:id])
+    @survey_responses = @survey.survey_responses
+    @survey_responses.each do |survey_response|
+      survey_response.created_at = survey_response.created_at.change(:sec => 0)
+      survey_response.save
+    end
+
+    render("survey_responses/one_survey.html.erb")
   end
 
   def show
@@ -20,7 +34,7 @@ class SurveyResponsesController < ApplicationController
 
   def create
     @survey_response = SurveyResponse.new
-
+    @survey_response.created_at.change(:sec => 0)
     @survey_response.survey_id = params[:survey_id]
     @survey_response.response_id = params[:response_id]
     @survey_response.response_rank = params[:response_rank]
@@ -40,6 +54,25 @@ class SurveyResponsesController < ApplicationController
     else
       render("survey_responses/new.html.erb")
     end
+  end
+  
+  def submit
+    
+    Survey.find(params[:survey_id]).response_options.each_with_index do |option, index|
+      @survey_response = SurveyResponse.new
+      @survey_response.created_at.change(:sec => 0)
+      @survey_response.survey_id = params[:survey_id]
+      @survey_response.submitter_name = params[:submitter_name]
+      
+      @survey_response.response_id = option.id
+      @survey_response.response_rank = params.fetch("response_" + index.to_s)
+  
+      @survey_response.save
+    
+    end
+
+    redirect_to("/surveys")
+    
   end
 
   def edit

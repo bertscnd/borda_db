@@ -1,7 +1,4 @@
 class SurveyResponseOptionsController < ApplicationController
-  
-  before_action :authenticate_user!
-  
   def index
     @q = SurveyResponseOption.ransack(params[:q])
     @survey_response_options = @q.result(:distinct => true).includes(:survey, :survey_responses).page(params[:page]).per(10)

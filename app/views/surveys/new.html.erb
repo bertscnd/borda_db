@@ -20,11 +20,7 @@
 
       <!-- Label and input for survey_name -->
       <div class="form-group">
-        <label for="survey_name" class="control-label">
-          Survey name
-        </label>
-
-        <input type="text" id="survey_name" name="survey_name" placeholder="Survey name" class="form-control" value="<%= @survey.survey_name %>">
+        <input type="text" id="survey_name" name="survey_name" placeholder="Name your survey" class="form-control" value="<%= @survey.survey_name %>">
       </div>
 
       <!-- Label and input for user_id -->
@@ -32,18 +28,18 @@
 
       <!-- Label and input for question_text -->
       <div class="form-group">
-        <label for="question_text" class="control-label">
-          Question text
-        </label>
-
-        <input type="text" id="question_text" name="question_text" placeholder="Question text" class="form-control" value="<%= @survey.question_text %>">
+        <input type="text" id="question_text" name="question_text" placeholder="Write your survey question here" class="form-control" value="<%= @survey.question_text %>">
       </div>
-
-      <button class="btn btn-success">
-        Create Survey
-      </button>
-      or
-      <a href="/surveys">Cancel</a>
+      
+      <legend></legend>
+      
+      <div class="form-group">
+        <button class="btn btn-success">
+          Create Survey
+        </button>
+        or
+        <a href="/surveys">Cancel</a>
+      </div>
     </form>
   </div>
 </div>

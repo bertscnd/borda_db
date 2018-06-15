@@ -1,4 +1,7 @@
 class SurveysController < ApplicationController
+  
+  before_action :authenticate_user!
+  
   before_action :current_user_must_be_survey_user, :only => [:edit, :update, :destroy]
 
   def current_user_must_be_survey_user
@@ -11,7 +14,7 @@ class SurveysController < ApplicationController
 
   def index
     @q = current_user.surveys.ransack(params[:q])
-    @surveys = @q.result(:distinct => true).includes(:user, :survey_questions, :survey_responses).page(params[:page]).per(10)
+    @surveys = @q.result(:distinct => true).includes(:user, :response_options, :survey_responses).page(params[:page]).per(10)
 
     render("surveys/index.html.erb")
   end
@@ -44,9 +47,9 @@ class SurveysController < ApplicationController
 
       case referer
       when "/surveys/new", "/create_survey"
-        redirect_to("/surveys")
+        redirect_to("/surveys/#{@survey.id}/edit")
       else
-        redirect_back(:fallback_location => "/", :notice => "Survey created successfully.")
+        redirect_back(:fallback_location => "/surveys/#{@survey.id}/edit", :notice => "Survey created successfully.")
       end
     else
       render("surveys/new.html.erb")
@@ -55,7 +58,6 @@ class SurveysController < ApplicationController
 
   def edit
     @survey = Survey.find(params[:id])
-
     render("surveys/edit.html.erb")
   end
 
@@ -93,4 +95,32 @@ class SurveysController < ApplicationController
       redirect_back(:fallback_location => "/", :notice => "Survey deleted.")
     end
   end
+  
+  def show_results
+    @survey = Survey.find(params[:id])
+    @survey.survey_responses.each do |survey_response|
+      survey_response.created_at = survey_response.created_at.change(:sec => 0)
+      survey_response.save
+    end
+    
+    
+    @survey_results = {}
+    @survey.response_options.each_with_index do |option, oindex|
+      @survey_results[option.response_text] = {}
+      options_count = 0
+      @survey.response_options.each_with_index do |optionb, obindex|
+        @survey_results[option.response_text][obindex + 1] = 0
+        options_count = options_count + 1
+      end
+      @survey_results[option.response_text]["borda"] = 0
+      @survey_results[option.response_text]["dowdall"] = 0.000
+      option.survey_responses.each_with_index do |resp, rindex|
+        @survey_results[option.response_text][resp.response_rank] = @survey_results[option.response_text][resp.response_rank] + 1
+        @survey_results[option.response_text]["borda"] = @survey_results[option.response_text]["borda"] + (options_count - resp.response_rank)
+        @survey_results[option.response_text]["dowdall"] = @survey_results[option.response_text]["dowdall"] + (1.000/resp.response_rank)
+      end
+    end
+    render("surveys/results.html.erb")
+  end
+  
 end

@@ -8,8 +8,8 @@
   <% end %>
 <% end %>
 
-<div class="page-header">
-  <h3>Edit Survey #<%= @survey.id %></h3>
+<div class="page-header mt-1">
+  <h3>Edit <%= @survey.survey_name %> survey</h3>
 </div>
 
 <div class="row">
@@ -40,10 +40,50 @@
       </div>
 
       <button class="btn btn-warning">
-        Update Survey
+        Update Survey Name / Question
       </button>
       or
       <a href="/surveys/<%= @survey.id %>">Cancel</a>
     </form>
+  </div>
+</div>
+<div class="page-header mt-0"></div>
+<div class="page-header">
+  <h3>Add or edit response options</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h4>Current response options</h4>
+    <% @survey.response_options.each_with_index do |option, index| %>
+    <p>
+      <%= index + 1%> <%= option.response_text %> 
+      <a href="/delete_survey_response_option/<%=option.id%>" class="badge" style="background-color:#d9534f">-</a>
+    </p>    
+    <%end%>
+    
+
+    <form action="/create_survey_response_option" method="post">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 text-left">
+            
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+              <input type="hidden" id="survey_id" name="survey_id" class="form-control" value="<%= @survey.id %>">
+              <input type="text" id="response_text" name="response_text" class="form-control" placeholder="Add new response option">
+            
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-primary">
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+    <div class="page-header mt-0"></div>    
+    <h5>Link to take survey: <a href="/surveys/<%= @survey.id %>">https://borda-co-bertscnd.c9users.io/surveys/<%= @survey.id %></a></h5>
   </div>
 </div>

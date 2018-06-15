@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h1>
+    <%= @survey.survey_name %> survey responses
+  </h1>
+
+
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Submitted by</th>
+        <th>Submitted at</th>
+        <th>Option</th>
+        <th>Rank</th>
+        
+      </tr>
+
+      <% @survey_responses.map(&:submitter_name).uniq.each do |name| %>
+        <tr>
+          <td rowspan = "<%=@survey_responses.where(:submitter_name => name).count%>"><%= name %></td>
+            <% @survey_responses.where(:submitter_name => name).map(&:created_at).uniq.each_with_index do |time, tindex| %>
+              <% if tindex != 0%>
+                <tr>
+              <%end%>            
+              <td rowspan = "<%=@survey_responses.where(:submitter_name => name, :created_at => time).count%>">
+                <%= time.strftime('%c') %>
+              </td>
+              <% @survey_responses.where(:submitter_name => name, :created_at => time).each_with_index do |survey_response, index|%>
+                <% if index != 0%>
+                  <tr>
+                <%end%>
+                  <td>
+                    <%= survey_response.response_option.response_text %>
+                  </td>
+                  <td>
+                    <%= survey_response.response_rank %>
+                  </td>
+                <% if index != 0%>
+                  </tr>
+                <% end%>
+              <%end%>
+              <% if tindex != 0%>
+                </tr>
+              <%end%>  
+            <%end%>    
+          </td>
+        </tr>
+      <% end %>
+    </table>

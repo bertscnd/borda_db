@@ -1,165 +1,72 @@
 <div class="page-header">
-  <h3>Survey #<%= @survey.id %></h3>
-</div>
+  <h2><%= @survey.survey_name %> Survey</h2>
 
-<div class="row">
-  <div class="col-md-12 mb-2">
-    <dl class="dl-horizontal">
-      <dt>Survey name</dt>
-      <dd><%= @survey.survey_name %></dd>
-
-      <dt>User</dt>
-      <dd>
-        <% if @survey.user.present? %>
-          <a href="/users/<%= @survey.user_id %>">
-            <%= @survey.user.email %>
-          </a>
-        <% end %>
-      </dd>
-
-      <dt>Question text</dt>
-      <dd><%= @survey.question_text %></dd>
-
-    </dl>
-
-    <div class="btn-group btn-group-justified">
-      <a href="/surveys" class="btn btn-primary">
-        Back
+  <% if current_user == @survey.user %>
+    <div class="btn-group">
+      <a href="/surveys/<%= @survey.id %>/edit" class="btn btn-warning">
+        Edit Survey
       </a>
-      <% if current_user == @survey.user %>
-        <a href="/surveys/<%= @survey.id %>/edit" class="btn btn-warning">
-          Edit
-        </a>
-        <a href="/delete_survey/<%= @survey.id %>" class="btn btn-danger" rel="nofollow">
-          Delete
-        </a>
-      <% end %>
+      <a href="/delete_survey/<%= @survey.id %>" class="btn btn-danger" rel="nofollow">
+        Delete Survey
+      </a>
     </div>
-  </div>
+  <% end %>
 </div>
 
-<!-- A Survey has many survey_questions -->
 
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Survey Questions
-      </li>
+  
+<ul class="list-group">
+  <li class="list-group-item list-group-item-info">
+    <h4><strong>Survey Question:</strong> <%= @survey.question_text %></h4>
+  </li>
 
-      <% @survey.survey_questions.each do |survey_response_option| %>
-        <li class="list-group-item">
-          <a href="/survey_response_options/<%= survey_response_option.id %>">
-            <%= survey_response_option.response_text %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/survey_response_options/<%= survey_response_option.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/survey_response_options/<%= survey_response_option.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_survey_response_option/<%= survey_response_option.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-
-      <li class="list-group-item">
-        <form action="/create_survey_response_option" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for response_text -->
-      <div class="form-group">
-        <label for="response_text" class="control-label">
-          Response text
-        </label>
-
-        <input type="text" id="response_text" name="response_text" placeholder="Response text" class="form-control" value="">
-      </div>
-
-      <!-- Label and input for survey_id -->
-      <input type="hidden" name="survey_id" value="<%= @survey.id %>">
-
-      <button class="btn btn-block btn-success">
-        Create Survey Response Option
-      </button>
-    </form>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<!-- A Survey has many survey_responses -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Survey Responses
-      </li>
-
-      <% @survey.survey_responses.each do |survey_response| %>
-        <li class="list-group-item">
-          <a href="/survey_responses/<%= survey_response.id %>">
-            <%= survey_response.survey_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/survey_responses/<%= survey_response.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/survey_responses/<%= survey_response.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_survey_response/<%= survey_response.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-
-      <li class="list-group-item">
-        <form action="/create_survey_response" method="post">
+  <li class="list-group-item">
+    <form action="/submit_survey_response" method="post">
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
       <!-- Label and input for survey_id -->
       <input type="hidden" name="survey_id" value="<%= @survey.id %>">
-
-      <!-- Label and input for response_id -->
-      <div class="form-group">
-        <label for="response_id" class="control-label">
-          Response
-        </label>
-
-        <%= select_tag(:response_id, options_from_collection_for_select(SurveyResponseOption.all, :id, :response_text), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for response_rank -->
-      <div class="form-group">
-        <label for="response_rank" class="control-label">
-          Response rank
-        </label>
-
-        <input type="text" id="response_rank" name="response_rank" placeholder="Response rank" class="form-control" value="">
-      </div>
+      <input type="hidden" name="num_options" value="<%= @survey.response_options.count %>">
 
       <!-- Label and input for submitter_name -->
-      <div class="form-group">
-        <label for="submitter_name" class="control-label">
-          Submitter name
+      
+      
+      <div class="form-row">
+        <label for="submitter_name" class="col-sm-1 col-form-label mt-1">
+          Name
         </label>
-
-        <input type="text" id="submitter_name" name="submitter_name" placeholder="Submitter name" class="form-control" value="">
+        <div class="col-sm-11">
+          <input type="text" id="submitter_name" name="submitter_name" placeholder="Your name here" class="form-control" value="">
+        </div>
       </div>
-
+      
+      <div class = "row mb-1"></div>
+      <div class = "form-row"><label class="col-sm-2 col-form-label mt-1">Rank the options:</label></div>
+      <div class = "row mb-1"></div>
+      
+      <div class="container mb-1">
+        <% @survey.response_options.each_with_index do |option, index| %>
+          <div class="row mb-1">
+            <div class="col-md-1">
+              <select name="response_<%= index %>" id="response_<%= index %>" class="form-control">
+                <% @survey.response_options.each_with_index do |option, index| %>
+                  <option value="<%= index + 1%>"><%= index + 1%></option>
+                <%end%>
+              </select>
+            </div>
+            
+            <div class="col-md-4 align-text-middle">
+              <label for="response_<%= index %>" class="control-label mt-1">
+                <%=option.response_text%>
+              </label>
+            </div>
+          </div>
+        <%end%>
+      </div>  
       <button class="btn btn-block btn-success">
-        Create Survey Response
+        Submit Survey Response
       </button>
     </form>
-      </li>
-    </ul>
-  </div>
-</div>
+  </li>
+</ul>

@@ -1,0 +1,59 @@
+<div class="page-header">
+    <h2><%=@survey.survey_name%> results</h2>
+</div>
+
+<ul class="list-group">
+  <li class="list-group-item active">
+    <h4><strong>Survey question:</strong> <%= @survey.question_text %></h4>
+  </li>
+  
+  <li class="list-group-item">
+    <strong>Total Votes:</strong> <%= @survey.survey_responses.group_by{|r| [r.submitter_name, r.created_at]}.count %> <a href="/surveys/<%= @survey.id%>/responses"><small>view individual responses</small></a>
+  </li>
+  
+  <li class="list-group-item">
+    <table class="table mb-0">
+      <thead>
+          <tr>
+            <th scope="col">
+              <strong>Option</strong>
+            </th>
+            <th scope="col" class="text-right">
+              <strong>Borda Count</strong><small><a href = "https://en.wikipedia.org/wiki/Borda_count" target="_blank"> 1</a></small>
+            </th>
+            <th scope="col" class="text-right">
+              <strong>Dowdall System</strong><small><a href = "https://en.wikipedia.org/wiki/Borda_count#Dowdall_system_(Nauru)" target="_blank"> 2</a></small>
+            </th>
+            <th scope="col" class="text-right">
+              <strong>First-place votes</strong>
+            </th>
+            <th scope="col" class="text-right">
+              <strong>Top-3 votes</strong>
+            </th>
+          <tr>
+      </thead>
+      <tbody>
+      <% @survey.response_options.each_with_index do |option, index| %>
+        <tr>
+          <th scope="row">
+            <%= option.response_text %>
+          </th>
+          <td class="text-right">
+            <%= @survey_results[option.response_text]["borda"] %>
+          </td>
+          <td class="text-right">
+            <%= @survey_results[option.response_text]["dowdall"].round(2) %>
+          </td>
+          <td class="text-right">
+            <%= @survey_results[option.response_text][1] %>
+          </td>
+          <td class="text-right">
+            <%= @survey_results[option.response_text][1] + @survey_results[option.response_text][2] + @survey_results[option.response_text][3] %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+     </table>
+  </li>
+  
+</ul>

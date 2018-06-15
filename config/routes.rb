@@ -6,9 +6,11 @@ Rails.application.routes.draw do
   # CREATE
   get "/survey_responses/new", :controller => "survey_responses", :action => "new"
   post "/create_survey_response", :controller => "survey_responses", :action => "create"
+  post "/submit_survey_response", :controller => "take_surveys", :action => "submit"
 
   # READ
   get "/survey_responses", :controller => "survey_responses", :action => "index"
+  get "/surveys/:id/responses", :controller => "survey_responses", :action => "surveyindex"
   get "/survey_responses/:id", :controller => "survey_responses", :action => "show"
 
   # UPDATE
@@ -43,7 +45,8 @@ Rails.application.routes.draw do
 
   # READ
   get "/surveys", :controller => "surveys", :action => "index"
-  get "/surveys/:id", :controller => "surveys", :action => "show"
+  get "/surveys/:id", :controller => "take_surveys", :action => "show"
+  get "/surveys/results/:id", :controller => "surveys", :action => "show_results"
 
   # UPDATE
   get "/surveys/:id/edit", :controller => "surveys", :action => "edit"

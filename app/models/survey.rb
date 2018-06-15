@@ -4,7 +4,7 @@ class Survey < ApplicationRecord
   has_many   :survey_responses,
              :dependent => :destroy
 
-  has_many   :survey_questions,
+  has_many   :response_options,
              :class_name => "SurveyResponseOption",
              :dependent => :destroy
 
